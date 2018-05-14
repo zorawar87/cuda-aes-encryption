@@ -40,9 +40,6 @@
 {\rm Zorawar Moolenaar'20}\\
 \rm  Trinity College\\
 zsingh@trincoll.edu
-%\and
-%{\rm Second Name}\\
-%Second Institution
 }
 
 \maketitle
@@ -52,70 +49,63 @@ zsingh@trincoll.edu
 % \thispagestyle{empty}
 
 
-\subsection*{Abstract}
-Your Abstract Text Goes Here.  Just a few facts.
-Whet our appetites.
+%\subsection*{Abstract}
+%Your Abstract Text Goes Here.  Just a few facts.
+%Whet our appetites.
 
 \section{Introduction}
 
-%A paragraph of text goes here.  Lots of text.  Plenty of interesting text. \\
-
-% More fascinating text. Features\endnote{Remember to use endnotes, not footnotes!} galore, plethora of promises.\\
-
 Cryptographic algorithms are the underlying principles that facilitate basic human rights like Right to Privacy.
-As technology evolves to engage more sensory modalities and more immersive experiences, we are continuously exposing more data about ourselves.
-This makes it essential to consume, process and store user-data deliberately and mindfully to prevent abuse that may range from monitoring and censorship to psychological-manipulation and identity-theft.
+As technology evolves to engage more sensory modalities and more immersive experiences, we continuously expose more data about ourselves.
+This makes it essential for services to consume, process and store user-data deliberately and mindfully to prevent abuse that may range from monitoring and censorship to psychological-manipulation and identity-theft.
 Thus, services must take-on the onus of protecting the users of their utilities.
 At the same time, these services must provide a seamless user-experience. The cost of protection should not be longer wait-times or a worse user-experience in any other form.
 
-One class of cryptographic algorithms used in such a context, are classified under \texttt{symmetric-key cryptography}.
+One class of cryptographic algorithms used in such a context, is classified under \texttt{symmetric-key cryptography}.
 These algorithms provide a modest amount of confidentiality, integrity and reliability within practical computational and temporal constraints.
 However, as computational power increases rapidly (in concurrence with Moore's Law, and advancements in high-performance, and quantum-computing based systems), we must re-evaluate the validity of existing algorithms, while also vetting new realisations and concepts.
 
 %Such algorithms rely on computational complexity and hardness to provide the benefits of confidentiality, integrity, and reliability.
 % Features like cryptographic hash-functions, symmetric- and assymetric- key crytography, secure random-number generators, together allow 
-With increasing availability of GPUs and richer general-purpose GPU (GPGPU) programming paradigms, increasing number of computationally intensive tasks are being re-written to exploit the parallel programming model of GPUs. 
+With the increasing availability of GPUs and richer general-purpose GPU (GPGPU) programming paradigms, increasing number of computationally intensive tasks are being re-written to exploit the parallel programming model of GPUs. 
 
-This paper explores a widely used symmteric-key algorithm, the Advanced Encryption Standard~\cite{AES}, endorsed by the National Insitute of Standards and Technology (NIST) in context of GPU computing.  
+This paper explores a widely used symmteric-key algorithm, the Advanced Encryption Standard~\cite{AES}, endorsed by the National Institute of Standards and Technology (NIST) in context of GPU computing.  
 
 \section{GPUs and Cryptographic Algorithms}
-A cryptographic algorithm is called ``strong enough'' under the assumption that it isn't the weakest link in the system~\cite{strongEnough}.
+A cryptographic algorithm is called ``strong enough'' under the assumption that it is not the weakest link in the system~\cite{strongEnough}.
 In practice, \textit{computational hardness} is one feature that contributes to being ``strong enough''.
-For secret-key or hashing algorithms this manifests as expanding the number-field for keys and values.
-Typically, this requires more computations to calculate (taking away from the user experience), but also making it exponentially harder to break.
+For secret-key or hashing algorithms this manifests as expanding the number-field for keys and values. That is, we use a larger range of numbers.
+Typically, this requires more computations (taking away from the user experience), but also making it exponentially harder to break.
 
-Historically, computation costs have been ameliorated this calculation cost, by leveraging dedicated structures: dedicated hardware add-ons such as the MMX instruction set, and hardware-abstracting frameworks such as the OpenBSD Cryptographic Framework. These accelerators offer significant speedup ~\cite{ocf_design}.
+Historically, computation costs have been ameliorated by leveraging dedicated structures: dedicated hardware add-ons such as the MMX instruction set, and hardware-abstracting frameworks such as the OpenBSD Cryptographic Framework. These accelerators offer significant speedup ~\cite{ocf_design}.
 The increase in computational power of GPUs has made it more efficient than CPUs at certain tasks, and although they have not typically been used for non-graphics operations, that landscape is changing rapidly thanks to the rise of general-pupose GPU programming paradigm (GPGPU)~\cite{cryptographics}.
 Application Specific Integrated-Circuits (ASICs) can be crafted from bottom up tailored to maximise efficiency with respect to some specific algorithm, and simultaneously minimise power consumption~\cite{bhatnagar}.
 
-In such a scenario, what makes GPUs worth examining over the other two options, is that GPUs are more widely available.
-They are already present in most modern machines since desktop-managers, web-browsers, video-players, and operating-systems have evolved to leverage the GPU for higher performance.
-GPUs offer an excellent trade-off of speed, cost and ubiquity.
+In such a scenario, what makes GPUs worth examining over the other two options, is that GPUs offer an excellent trade-off of speed, cost and ubiquity.
+They are already present in most modern machines since desktop-managers, web-browsers, video-players, and operating-systems have evolved to leverage them for higher performance.
 Furthermore, algorithms similar to AES are embarrassingly parallel. They perform straightforward mathematical operations on large data-sets --- which GPGPUs are natively designed to tackle.
-%Additionally, Cook and Keromytis of Columbia University demonstrate in their book about how GPUs.
 
-However, there are some bottlenecks too.
-Operations required by the same algorithm --- such as large-integer modulo and byte shifts --- are very expensive to compute on GPUs~\cite{cuda_pro_guide}~\cite{modulo_error}.
+However, there are some disadvantages too.
+Operations required by the AES --- such as large-integer modulo and byte shifts --- are very expensive to compute on GPUs~\cite{cuda_pro_guide}~\cite{modulo_error}.
 The main performance bottleneck is the overhead of transferring a large amount of data to the GPU to operate upon.
-Consequently, older versions of GPU architecture did not provide significant performance gain; however, with optimisations such as stream processing and exploiting memory techniques (coalescing, constant, shared) have yielded a substantial speed-up~\cite{iwai}.
+Consequently, older versions of GPU architecture did not provide significant performance gain; however, with optimisations such as stream processing and exploiting memory techniques have yielded a substantial speed-up~\cite{iwai}.
 
 \section{The Advanced Encryption Standard}
 In Late 1997, in response to exposed vulnerabilities of the Data Encryption Standard (DES) --- the then federal standard ---, the National Institution for Standards and Technology (NIST) called for proposals of an Advanced Encryption Standard (AES) to replace DES.
-NIST received fifteen proposals of candidate ciphers, which included algorithms authored by IBM (who developed DES), by Ron Rivest, and among others by Dutch Cryptographers, Vincent Rijmen and Joan Daemen.
+NIST received fifteen proposals of candidate ciphers, which included algorithms authored by IBM (who developed DES), by Ron Rivest (co-inventor of the RSA algorithm), and among others by Dutch Cryptographers, Vincent Rijmen and Joan Daemen.
 In 2000, NIST accepted a variant of the Dutch algorithm, called Rijndael.
 Around 2002, it became the federal standard for classified to top-secret US government communication.
-AES has become of the most important algorithms today: it is used to encrypt WiFi pre-shared keys, in routers, for HTTPS/TLS security by webservers used in banking, commerce, privacy-oriented and other websites.
+AES has become one of the most important algorithms today: it is used to encrypt WiFi pre-shared keys, in routers, for HTTPS/TLS security in webservers used in banking, commerce, privacy-oriented and other websites.
 
-Especially in context of web-servers, AES serves a dramatic computational overhead~\cite{ieee_cuda}. Webservers have to deal with millions of requests, and an addition handle encryption/decryption via the openssl library.
+Especially in context of web-servers, AES serves a dramatic computational overhead~\cite{ieee_cuda}. Webservers have to deal with millions of requests, and an in addition handle encryption/decryption via the openssl library.
 The implementation structure of AES exhibits a high degree of data parallelism, and so CUDA's single-instruction multiple-data architecture lends itself natively.
-Theoretically, AES is an extra burden for webservers. 
-If it could be repurposed to be delegated to GPUs, webservers will see accelerated performance and security.
+If this burden could be repurposed and delegated from CPUs to GPUs, webservers will see accelerated performance and security.
 
 \subsection{Algorithm Overview}
 AES operates on a 4x4 \textit{state} matrix, the input and output data, using galois (finite) field operations.
 
-The state represents 128-bits \textit{block} of the data to be encrypted or decrypted.
-It also consumes a \textit{cipher key} of {128-bits}, {192-bits} or {256-bits}, conducts 10, 12 or 14 \textit{rounds} of execution (i.e., repititions of transformation).
+The state represents a 128-bit \textit{block} of the data to be encrypted or decrypted.
+It also consumes a \textit{cipher key} of {128-bits}, {192-bits} or {256-bits}, and conducts 10, 12 or 14 \textit{rounds} of execution (i.e., repititions of transformation) depending on the key-size.
 The same cipher key is used for both encryption and decryption. AES is hence considered a \textit{symmetric-key} algorithm.
 Like most commercial applications, the included implementation uses a cipher key of 128-bit length.
 
@@ -131,28 +121,43 @@ Then, AES performs four different byte-oriented transformations in each round:
 Step 1. provides \textit{confusion}, and step 2. and 3. provide \textit{diffusion}; together, these steps make AES a secure operation and make it harder to perform cryptanalysis~\cite{shanon}.
 It is worth noting that in the last round of transformation, column-mixing is not performed.
 
-The details of the implementation of each step of the process have been heavily documented in the source code in a readable, and concise yet expressive manner. This not only remarkably cuts-down the length of this paper, but makes the algorithm easier to understand. 
+The details of the algoritm's implementation at each step has been well documented in the source code in a readable, and concise yet expressive format. This not only remarkably cuts-down the length of this paper, but makes the algorithm easier to understand in context of what the CUDA-AES implementation does.
 
 \section{Source-Tree}
-This implementation is composed of four \texttt{c-source} files, and one \texttt{header} files.
+This implementation is composed of four \texttt{c-source} files, and one \texttt{header} file.
 \begin{enumerate}
     \item \texttt{main.cu}: contains CUDA/C implementation of AES, with IO and print utilities
     \item \texttt{keygen.c}: generates a random 128-bit key that each iteration of AES may use
-    \item \texttt{gen\_payload.c}: generates an obscure payload of random characters to fill-up N bytes of data. Possible values for this implementation: 8Mib, 16Mib, $...$, 1024MiB
-    \item \texttt{utils.c}: common utilities used by all applications
+    \item \texttt{gen\_payload.c}: generates an obscure payload of random characters to fill-up N bytes of data. Values used in this implementation: 8Mib, 16Mib, $...$, 1024MiB
+    \item \texttt{utils.c}: common utilities used by generator applications
     \item \texttt{aes.h}: signatures and constants required for the application
 \end{enumerate}
 
 \section{Benchmarks}
 \subsection{Testing Environment}
-Tests have been conducted on Trinity College's \texttt{pine} server, access to which was graciously provided by Dr. Peter Yoon. This server housed both, the CPU and GPU used to test both versions of AES.
+Tests have been conducted on Trinity College's \texttt{pine} server, access to which was graciously provided by Dr. Peter Yoon. This server housed both, the CPU and GPU used to test both versions of AES. The environment metrics were retrieved using \texttt{lscpu} and \texttt{deviceQuery} respectively.
 
-The CPU version of AES falls back on the native openSSL implementation --- which ships with many GNU/Linux distributions, including the host Operating System, Ubuntu 16.04. Calculations were performed using twenty-four 64-bit Intel Xeon CPUs, clocked at 1.95GHz with 2 threads per core. (results were gathered using \texttt{lscpu}).
+The CPU version of AES falls back on the native openSSL implementation --- which ships with many GNU/Linux distributions, including the host Operating System, Ubuntu 16.04. Calculations were performed using twenty-four 64-bit Intel Xeon CPUs, clocked at 1.95GHz with 2 threads per core.
 
-The CUDA/C implementation of AES runs on an NVIDIA Tesla GPU with 65K of constant memory, about 50K of shared memory, and 12GB of global memory. 
+The CUDA/C implementation of AES runs on an NVIDIA Tesla GPU with 65K of constant memory, about 50K of shared memory, and 12GB of global memory. This application uses $2^15$ blocks each with $2^10$ threads.
 
+Timing for the CPU has been measured using the UNIX time ``general command''. Timing for the GPU has been measured using the CUDA API's event functionality.
+
+\begin{figure}
+\includegraphics[scale=0.16]{HPC}
+\label{Tesla}
+\caption{
+    Payload Encryption Time
+}
+
+\end{figure}
 \subsection{Results}
-As visible in the graph, the GPU implementation by far outperforms CPU-based AES. In fact, graph hints that the CPU v. GPU time eventually follows parallel lines. The tests were also conducted on an older GPU: while timing for small-sized payloads were much closer than in Figure \ref{Tesla}, there was still a siginifcant gap. The parallel trend was apparent in this test too.
+As visible in the graph\endnote{
+        A clearer, interactive version of the graph may be found at
+        \href
+        {https://plot.ly/~zorawar87/1/}
+        [https://plot.ly/~zorawar87/1/]
+}, the GPU implementation by far outperforms CPU-based AES. In fact, the graph hints that the CPU v. GPU time eventually follows parallel lines.
 
 \begin{align}
     S(n,p) &= \frac{
@@ -172,31 +177,23 @@ As visible in the graph, the GPU implementation by far outperforms CPU-based AES
 
 Hence, the GPU implementation shows a 70.66 times speedup.
 
-\begin{figure}
-\includegraphics[scale=0.16]{HPC}
-\label{Tesla}
-\caption{
-    Payload Encryption Time
-    \endnote{
-        A clearer, interactive version of the graph may be found at
-        \href
-        {https://plot.ly/~zorawar87/1/}
-        [https://plot.ly/~zorawar87/1/]
-    }
-}
-\end{figure}
+The tests were repeated on an older GPU and the trends remains similar. While timing for small-sized payloads were much closer than in Figure \ref{Tesla}, there was still a significant gap. The parallel trend was apparent in this test too.
 
-\section{Future Work}
+\section{Limitations \& Future Work}
 While the results are conclusive in pointing the superiority of a GPU-based encryption system, the project does not implement a working decryption utility. While in theory this was simple, in practice, there were some errors that could not have been fixed in the current iteration.
 
-It is worth noting that the implementation heavily relies on fighting the performance bottleneck of memory transfer. Consequently, appropriate constant matrices are placed in the device constant matrix. It also makes use of shared memory when dealing with the state matrix, and computations keep in mind principles of warps, memory coalescing and DRAM  bursts.
+It is worth noting that the implementation heavily relies on fighting the performance bottleneck of memory transfer. Consequently, appropriate constant matrices are placed in the device constant matrix. It also makes use of shared memory when dealing with the state matrix, and computations keep in mind principles of warps, memory coalescing and DRAM bursts.
 
-One claim that may be worth investigating, is that rather than using constant substitution matrix and round-constants, they should be calculated on the GPU, since matrix multiplication is a trivial problem of parallelisation. Unfortunately, even though I spent a lot of time trying to understand the surrounding math, it is beyond the scope of what I can make sense of at this time.
+One claim that may be worth investigating, is that rather than using constant substitution matrix and round-constants, they should be calculated on the GPU, since matrix multiplication is a trivial problem of parallelisation.
+Unfortunately, the complexity of finite-field math involved required more time to understand. This ``excuse'' also extends to a few nitty-gritties in the algorithm implementation --- however, reading few papers helped reach a workable solution.
 
-\section{Reflections, Challenges \& Limitations}
-The most time consuming part of this project was actually understanding the internals of the AES algorithm. Once I got a sense of how the implementation might be composed, I learned how to use a debugger (\texttt{cuda-gdb}), and finally grasped the pertinent concepts and the ability to follow through a single application run.
+\section{Reflections \& Challenges}
+The most time consuming part of this project was actually understanding the internals of the AES algorithm, and thinking about how to design the algorithm with respect to CUDA.
+Once I had a basic structure, I learned to use a debugger (\texttt{cuda-gdb}) to analyse the results in a more fine-grained manner.
+Finally, I grasped the pertinent concepts and the ability to follow through a single application run.
+The fact that AES works on blocks of 128-bits at a time made it simpler to use a debugger than if the state matrix was a million items long.
 
-Additionally, I expanded what I knew about \LaTeX typesetting, by using style file and learning to use \textsc{Bib}\negthinspace\TeX  for citation management; representing data using charts using \texttt{plotly}, and \texttt{make} to simplify the general software development workflow.
+Additionally, I expanded what I knew about \LaTeX typesetting, by conforming to an actual conference format and seeing how the ``good typesetting'' is done; for the first time I learning to use \textsc{Bib}\negthinspace\TeX and \texttt{Zotero} to manage citations; learned to display data using charts through the \texttt{plotly} tool and fine-grain how each aspect of the plot should be; and extensively used \texttt{make} to simplify the general software development work-flow.
 
 {\footnotesize \bibliographystyle{acm}
 \bibliography{cuda-aes}}

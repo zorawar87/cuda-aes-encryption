@@ -3,17 +3,17 @@
  * Author: Zorawar Moolenaar <zsingh@trincoll.edu>
  *
  * usage:
- *   generate random key using `make key`
- *   generate random payload using `make payload`
- *   compile using `make cuda_compile`
- *   GPU encrypt payload using `make cuda_enc`
- *   CPU encrypt payload using `make cuda_ssl`
+ *   1. generate random key using `make key`
+ *   2. generate random payload using `make payload`
+ *   3. compile using `make cuda_compile`
+ *   4. GPU encrypt payload using `make cuda_enc`
+ *   5. CPU encrypt payload using `make cuda_ssl`
 *
  * ## Algorithm Pseudocode ##
  * The steps of AES encryption (highlited in the acommpanying paper) are based
    on pseudocode and explanation from a variety of sources including:
         """
-        Announcing the ADVANCED ENCRYPTION STANDARD (AES)
+        Announcing the Advanced Encryption Standard (AES)
         by the National Institute of Standards and Technology (2001)
         """
         and
@@ -114,13 +114,17 @@ int main (int argc, char** argv) {
                 terminate (payload, target, argv[2], "Key is not 16 bytes. Terminating.");
         keyExpansion (Key);
 
-        // allocate memory for key and payload
+        //////////////////// -- CUDA PLUMBING
+        // allocate memory for key 
+        // allocate memory for payload
+        // allocate constant memory for SBOX
+        // create event timers
+        /////////////////////////////////////
         gpuErrchk (cudaMalloc ((void**) &d_payload, maxSz));
         gpuErrchk (cudaMalloc ((void**) &d_key, expSz));
 
         gpuErrchk ( cudaMemcpy (d_key, ExpandKey, expSz, cudaMemcpyHostToDevice));
-        //gpuErrchk ( cudaMemcpyToSymbol (d_SBOX, SBOX, 256) );
-         cudaMemcpyToSymbol (d_SBOX, SBOX, 256) ;
+        cudaMemcpyToSymbol (d_SBOX, SBOX, 256) ;
 
         cudaEvent_t start, stop;
         cudaEventCreate (&start);
@@ -169,6 +173,10 @@ int main (int argc, char** argv) {
                 bytesRead = populateBuffer (payload, buffer);
         }
 
+        //////////////
+        // Clean-up
+        // Print Stats
+        //////////////
         cudaEventDestroy (start);
         cudaEventDestroy (stop);
 
